@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Chatbot Console - Chat</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+
+    background:
+      radial-gradient(
+        circle at 8% 12%,
+        rgba(20, 184, 166, 0.13),
+        transparent 28%
+      ),
+      radial-gradient(
+        circle at 92% 88%,
+        rgba(79, 70, 229, 0.12),
+        transparent 30%
+      ),
+      radial-gradient(
+        circle at 75% 10%,
+        rgba(14, 165, 233, 0.07),
+        transparent 25%
+      ),
+      linear-gradient(
+        135deg,
+        #edf4f7 0%,
+        #e8eef4 48%,
+        #eef2f7 100%
+      );
+
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+  }
+
+  .app {
+    width: 100%;
+    max-width: 680px;
+    height: 690px;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    border: 1px solid rgba(255, 255, 255, 0.9);
+
+    box-shadow:
+      0 25px 60px rgba(16, 24, 40, 0.13),
+      0 6px 16px rgba(16, 24, 40, 0.05);
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+  }
+
+  .topbar {
+    background:
+      linear-gradient(
+        135deg,
+        #0f172a 0%,
+        #123b45 65%,
+        #14505a 100%
+      );
+
+    color: #ffffff;
+
+    padding: 19px 23px;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    letter-spacing: 0.1px;
+
+    box-shadow:
+      0 3px 10px rgba(15, 23, 42, 0.13);
+  }
+
+  .topbar span {
+    display: block;
+
+    font-size: 12px;
+    font-weight: 400;
+
+    color: rgba(255, 255, 255, 0.65);
+
+    margin-top: 4px;
+  }
+
+  .messages {
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 24px 22px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    background:
+      radial-gradient(
+        circle at 5% 10%,
+        rgba(20, 184, 166, 0.055),
+        transparent 25%
+      ),
+      radial-gradient(
+        circle at 95% 90%,
+        rgba(79, 70, 229, 0.045),
+        transparent 28%
+      ),
+      linear-gradient(
+        135deg,
+        #f8fafc 0%,
+        #f5f8fa 100%
+      );
+
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+
+  .messages::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .messages::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .messages::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+  }
+
+  .bubble {
+    padding: 11px 15px;
+
+    border-radius: 13px;
+
+    font-size: 14px;
+    line-height: 1.5;
+
+    max-width: 78%;
+
+    word-wrap: break-word;
+
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .bubble:hover {
+    transform: translateY(-1px);
+  }
+
+  .bot {
+    background: rgba(255, 255, 255, 0.97);
+
+    color: #1e293b;
+
+    border: 1px solid #e1e8ef;
+
+    align-self: flex-start;
+
+    border-bottom-left-radius: 5px;
+
+    box-shadow:
+      0 4px 12px rgba(15, 23, 42, 0.055);
+  }
+
+  .user {
+    background:
+      linear-gradient(
+        135deg,
+        #101828 0%,
+        #164e63 100%
+      );
+
+    color: #ffffff;
+
+    align-self: flex-end;
+
+    border-bottom-right-radius: 5px;
+
+    box-shadow:
+      0 5px 14px rgba(15, 23, 42, 0.13);
+  }
+
+  .input-bar {
+    display: flex;
+
+    gap: 10px;
+
+    padding: 15px;
+
+    border-top: 1px solid #e2e8f0;
+
+    background: rgba(255, 255, 255, 0.98);
+  }
+
+  .input-bar input {
+    flex: 1;
+
+    min-width: 0;
+
+    border: 1px solid #dbe3ea;
+
+    background: #f8fafc;
+
+    color: #0f172a;
+
+    border-radius: 10px;
+
+    padding: 11px 13px;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .input-bar input::placeholder {
+    color: #94a3b8;
+  }
+
+  .input-bar input:focus {
+    background: #ffffff;
+
+    border-color: #0f766e;
+
+    box-shadow:
+      0 0 0 3px rgba(15, 118, 110, 0.10);
+  }
+
+  .input-bar button {
+    border: none;
+
+    background:
+      linear-gradient(
+        135deg,
+        #101828,
+        #164e63
+      );
+
+    color: #ffffff;
+
+    padding: 0 21px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .input-bar button:hover {
+    box-shadow:
+      0 6px 14px rgba(15, 23, 42, 0.15);
+
+    transform: translateY(-1px);
+  }
+
+  .input-bar button:active {
+    transform: translateY(0);
+
+    box-shadow: none;
+  }
+
+  @media (max-width: 700px) {
+
+    body {
+      padding: 12px;
+    }
+
+    .app {
+      height: calc(100vh - 24px);
+      max-width: 100%;
+      border-radius: 15px;
+    }
+
+    .messages {
+      padding: 18px 14px;
+    }
+
+    .bubble {
+      max-width: 88%;
+    }
+  }
+
+  @media (max-width: 420px) {
+
+    .topbar {
+      padding: 16px 18px;
+    }
+
+    .input-bar {
+      padding: 12px;
+    }
+
+    .input-bar button {
+      padding: 0 16px;
+    }
+  }
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="topbar">
+    User Management Console
+    <span>{{ email }}</span>
+  </div>
+
+  <div class="messages" id="chatMessages"></div>
+
+  <div class="input-bar">
+    <input
+      type="text"
+      id="messageInput"
+      placeholder="Type a command..."
+      autofocus
+    >
+
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+</div>
+
+<script>
+
+  function getCookie(name) {
+    let value = `; ${document.cookie}`;
+    let parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+
+  const csrftoken = getCookie('csrftoken');
+
+  function addMessage(text, sender) {
+    const messagesDiv = document.getElementById('chatMessages');
+
+    const div = document.createElement('div');
+
+    div.className = 'bubble ' + sender;
+
+    div.textContent = text;
+
+    messagesDiv.appendChild(div);
+
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('messageInput');
+
+    const message = input.value.trim();
+
+    if (!message) return;
+
+    addMessage(message, 'user');
+
+    input.value = '';
+
+    fetch("{% url 'chat_view' %}", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken
+      },
+
+      body: JSON.stringify({
+        message: message
+      })
+    })
+
+    .then(response => response.json())
+
+    .then(data =>
+      addMessage(data.response, 'bot')
+    )
+
+    .catch(() =>
+      addMessage(
+        "Something went wrong. Please try again.",
+        'bot'
+      )
+    );
+  }
+
+  document
+    .getElementById('messageInput')
+    .addEventListener('keypress', function(e) {
+
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+
+    });
+
+</script>
+
+</body>
+</html>

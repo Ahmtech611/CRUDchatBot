@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin Console - Login</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 10% 15%, rgba(20, 184, 166, 0.12), transparent 30%),
+      radial-gradient(circle at 90% 85%, rgba(79, 70, 229, 0.10), transparent 32%),
+      linear-gradient(135deg, #edf3f7 0%, #e7edf3 50%, #f0f4f8 100%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 410px;
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow:
+      0 24px 55px rgba(16, 24, 40, 0.12),
+      0 5px 15px rgba(16, 24, 40, 0.05);
+    padding: 38px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #0f766e, #164e63, #4f46e5);
+  }
+
+  .card h2 {
+    margin: 0 0 7px;
+    font-size: 23px;
+    color: #101828;
+    font-weight: 650;
+    letter-spacing: -0.3px;
+  }
+
+  .card p {
+    margin: 0 0 27px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #667085;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid #dbe3ea;
+    background: #f8fafc;
+    color: #101828;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 17px;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .field input::placeholder {
+    color: #98a2b3;
+  }
+
+  .field input:focus {
+    background: #ffffff;
+    border-color: #0f766e;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.10);
+  }
+
+  button.submit {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #101828, #164e63);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      background 0.2s ease;
+  }
+
+  button.submit:hover {
+    background: linear-gradient(135deg, #0b1220, #0f4c5c);
+    box-shadow: 0 7px 16px rgba(16, 24, 40, 0.16);
+    transform: translateY(-1px);
+  }
+
+  button.submit:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  .error {
+    background: #fff5f4;
+    border: 1px solid #f5b8b3;
+    color: #b42318;
+    font-size: 13px;
+    line-height: 1.45;
+    padding: 10px 12px;
+    border-radius: 9px;
+    margin-bottom: 17px;
+  }
+
+  @media (max-width: 480px) {
+    body {
+      padding: 16px;
+    }
+
+    .card {
+      padding: 30px 24px;
+      border-radius: 15px;
+    }
+  }
+</style>
+
+</head>
+
+<body>
+
+  <div class="card">
+
+    <h2>Sign in</h2>
+
+    <p>Enter the email registered in the system.</p>
+
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="field">
+        {{ form.email }}
+      </div>
+
+      <button type="submit" class="submit">
+        Continue
+      </button>
+
+    </form>
+
+  </div>
+
+</body>
+</html>
