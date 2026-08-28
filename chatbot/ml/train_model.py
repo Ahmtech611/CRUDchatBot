@@ -73,6 +73,7 @@ training_data = {
         "can you get rid of sophia@company.com",
         "please delete user oliver@example.com",
         "remove charlotte@test.com",
+        "remove the user fatima with email fatima@gmail.com and phone 087464"
         "i want to delete daniel@xyz.com",
         "please remove grace@abc.com",
         "delete ethan@company.com from the system",

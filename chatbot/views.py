@@ -3,16 +3,13 @@ from django.conf import settings
 from django.http import JsonResponse
 from .forms import LoginForm
 from .models import SystemUser
-
-# Create your views here.
-
 import os
 import re
 import json
 import joblib
 
 
-# Now first I load ML model :
+# Now first load ML model :
 
 ML_DIR = os.path.join(os.path.dirname(__file__), "ml")
 
@@ -47,7 +44,7 @@ def extract_phone(text):
 
 def extract_update_info(text):
     
-    # Email-based update
+    # Email-based update :
     email_pattern_update = r"(?:update|change)\s+([\w\.-]+@[\w\.-]+\.\w+)'?s?\s+([\w\s]+?)\s+to\s+(.+)"
     match = re.search(email_pattern_update, text, re.IGNORECASE)
     if match:
