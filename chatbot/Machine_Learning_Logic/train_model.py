@@ -239,7 +239,7 @@ final_model = MultinomialNB()
 final_model.fit(X_all_vec, labels)
 
 
-joblib.dump(final_model, "chatbot/ml/model.pkl")
-joblib.dump(final_vectorizer, "chatbot/ml/vectorizer.pkl")
+joblib.dump(final_model, "chatbot/Machine_Learning_Logic/model.pkl")
+joblib.dump(final_vectorizer, "chatbot/Machine_Learning_Logic/vectorizer.pkl")
 
 print("Model and vectorizer save Succesfully!")

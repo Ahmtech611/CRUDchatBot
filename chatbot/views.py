@@ -11,7 +11,7 @@ import joblib
 
 # Now first load ML model :
 
-ML_DIR = os.path.join(os.path.dirname(__file__), "ml")
+ML_DIR = os.path.join(os.path.dirname(__file__), "Machine_Learning_Logic")
 
 model = joblib.load(os.path.join(ML_DIR, "model.pkl"))
 vectorizer = joblib.load(os.path.join(ML_DIR, "vectorizer.pkl"))
