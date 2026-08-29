@@ -24,11 +24,9 @@ def predict_intent(message):
     prediction = model.predict(vec)[0]
     proba = model.predict_proba(vec)[0]
     confidence = max(proba)
-    
-    
+
     if confidence < CONFIDENCE_THRESHOLD:
-        return "unknown", 
-    confidence
+        return "unknown", confidence
     return prediction, confidence
 
 email_pattern = r'[\w\.-]+@[\w\.-]+\.\w+'
@@ -43,19 +41,27 @@ def extract_phone(text):
     return match.group(0).strip() if match else None
 
 def extract_update_info(text):
-    
-    # Email-based update :
+    # Email-based update
     email_pattern_update = r"(?:update|change)\s+([\w\.-]+@[\w\.-]+\.\w+)'?s?\s+([\w\s]+?)\s+to\s+(.+)"
     match = re.search(email_pattern_update, text, re.IGNORECASE)
     if match:
-        return {"identifier": match.group(1), "type": "email", "field": match.group(2).strip(), "value": match.group(3).strip()}
+        return {"identifier": match.group(1), "type": "email",
+                "field": match.group(2).strip(), "value": match.group(3).strip()}
 
-    # Name-based update and its non greedy :
-    
-    name_pattern_update = r"(?:update|change)\s+(\w+?)'?s\s+([\w\s]+?)\s+to\s+(.+)"
-    match = re.search(name_pattern_update, text, re.IGNORECASE)
+    # Name + apostrophe-s ("samantha's city")
+    match = re.search(r"(?:update|change)\s+(\w+?)'s\s+([\w\s]+?)\s+to\s+(.+)", text, re.IGNORECASE)
+
+    # Name + glued-s, no apostrophe ("samanthas city") — assignment's own style
+    if not match:
+        match = re.search(r"(?:update|change)\s+(\w+?)s\s+([\w\s]+?)\s+to\s+(.+)", text, re.IGNORECASE)
+
+    # Plain name, no possessive at all ("samantha city")
+    if not match:
+        match = re.search(r"(?:update|change)\s+(\w+)\s+([\w\s]+?)\s+to\s+(.+)", text, re.IGNORECASE)
+
     if match:
-        return {"identifier": match.group(1), "type": "name", "field": match.group(2).strip(), "value": match.group(3).strip()}
+        return {"identifier": match.group(1), "type": "name",
+                "field": match.group(2).strip(), "value": match.group(3).strip()}
 
     return None
 
@@ -64,7 +70,7 @@ FIELD_MAP = {
     "phone number": "phone",
     "city": "city",
     "email": "email",
-    "email addres" : "email",
+    "email address" : "email",
 }
 
 def handle_add_user(message):

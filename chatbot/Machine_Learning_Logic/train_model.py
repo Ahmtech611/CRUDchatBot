@@ -106,7 +106,7 @@ training_data = {
         "change alis email to newali@company.com",
         "update the city of hamza to Lahore",
         "please change saras phone to 03009998888",
-        "update user samantha city to Karachi",
+        "update user samanthas city to Karachi",
         "change johns email to johnnew@example.com",
         "update david phone number to 03112223344",
         "please change michaels city to Islamabad",
@@ -117,6 +117,7 @@ training_data = {
         "update williams phone number to 03001112223",
         "please change sophias city to Karachi",
         "update olivers email address to oliver_new@example.com",
+        "can you update samanthas city to Cordoba"
         "change charlottes phone to 03224445566",
         "please update daniels city to Sialkot",
         "change graces email to grace_new@abc.com",
