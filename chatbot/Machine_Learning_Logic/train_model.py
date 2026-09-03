@@ -1,6 +1,6 @@
 import joblib
 
-# for splitting the data in train(80 %) and test(20 %) split karny ky liyee :
+# for splitting the data in train(80 %) and test(20 %) split :
 
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer

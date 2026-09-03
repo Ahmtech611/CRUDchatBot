@@ -5,7 +5,7 @@ class LoginForm(forms.Form):
         label="Enter your email",
 
         widget=forms.EmailInput(attrs={
-            "placeholder": "you@wpbridate.com",
+            "placeholder": "enter email",
             "autofocus": True,
         })
     )
